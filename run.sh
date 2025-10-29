@@ -124,8 +124,8 @@ run_tests() {
 run_translation() {
     print_info "启动视频翻译程序..."
     source venv/bin/activate
-    cd src
-    python main.py "$@"
+    # 使用 -m 方式运行，支持相对导入
+    python -m src.main "$@"
 }
 
 # 显示帮助信息

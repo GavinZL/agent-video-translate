@@ -15,12 +15,12 @@ import argparse
 from pathlib import Path
 
 # 导入模块
-from modules.video_processor import VideoProcessor
-from modules.qwen_api import TranslationEngine
-from modules.audio_processor import EnglishAudioGenerator, AudioSynchronizer
-from modules.subtitle_generator import SRTGenerator
-from modules.video_composer import VideoComposer
-from utils.config import get_config, reload_config
+from .modules.video_processor import VideoProcessor
+from .modules.qwen_api import TranslationEngine
+from .modules.audio_processor import EnglishAudioGenerator, AudioSynchronizer
+from .modules.subtitle_generator import SRTGenerator
+from .modules.video_composer import VideoComposer
+from .utils.config import get_config, reload_config
 
 
 class VideoTranslationPipeline:
@@ -196,8 +196,8 @@ class VideoTranslationPipeline:
             self.logger.info("开始处理音频和视频数据...")
             
             # 创建音频和图像数据流
-            audio_stream = self._create_audio_stream(input_path)
-            image_stream = self._create_image_stream(input_path)
+            audio_stream = await self._create_audio_stream(input_path)
+            image_stream = await self._create_image_stream(input_path)
             
             # 启动翻译引擎处理
             await self.translation_engine.translate_stream(audio_stream, image_stream)

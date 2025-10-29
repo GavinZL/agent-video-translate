@@ -98,7 +98,7 @@ class QwenAPIClient:
             # 建立WebSocket连接
             self.websocket = await websockets.connect(
                 url,
-                extra_headers=headers,
+                additional_headers=headers,
                 ping_interval=30,
                 ping_timeout=10,
                 close_timeout=10
@@ -154,6 +154,8 @@ class QwenAPIClient:
             }
             
             self.logger.info("发送会话配置...")
+            self.logger.info(f"配置模型: {self.config.api.model_name}")
+            self.logger.debug(f"配置消息: {json.dumps(config_message, ensure_ascii=False)}")
             await self._send_message(config_message)
             
             # 等待配置确认（简化处理，实际应该等待响应）
@@ -281,7 +283,7 @@ class QwenAPIClient:
     async def disconnect(self):
         """断开WebSocket连接"""
         try:
-            if self.websocket and not self.websocket.closed:
+            if self.websocket:
                 await self.websocket.close()
             
             self.is_connected = False
@@ -315,7 +317,7 @@ class QwenAPIClient:
             message: 要发送的消息
         """
         try:
-            if not self.websocket or self.websocket.closed:
+            if not self.websocket:
                 raise RuntimeError("WebSocket连接不可用")
             
             message_json = json.dumps(message, ensure_ascii=False)

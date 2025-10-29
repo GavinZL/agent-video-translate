@@ -2,7 +2,8 @@
 # Python 3.8+
 
 # 核心依赖
-asyncio-timeout>=4.0.0
+# asyncio-timeout>=4.0.0  # Python 3.11+ 已内置 asyncio.timeout
+asyncio-timeout>=4.0.0; python_version<"3.11"
 websockets>=11.0.0
 python-dotenv>=1.0.0
 
@@ -12,13 +13,14 @@ numpy>=1.24.0
 Pillow>=10.0.0
 
 # 音频处理
-wave
+# wave 是 Python 内置模块，不需要单独安装
 librosa>=0.10.0
 soundfile>=0.12.0
 
 # 网络请求
 requests>=2.31.0
 aiohttp>=3.8.0
+python-socks>=2.0.0  # WebSocket代理支持
 
 # 数据处理
 dataclasses; python_version<"3.7"
